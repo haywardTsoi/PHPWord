@@ -73,6 +73,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
             'Footnotes' => '',
             'Endnotes' => '',
             'Chart' => '',
+            'XmlChart' => '',
         ];
         foreach (array_keys($this->parts) as $partName) {
             $partClass = static::class . '\\Part\\' . $partName;
@@ -279,7 +280,7 @@ class Word2007 extends AbstractWriter implements WriterInterface
         $collection = $phpWord->getCharts();
         $index = 0;
         if ($collection->countItems() > 0) {
-            /** @var \PhpOffice\PhpWord\Element\Chart $chart */
+            /** @var \PhpOffice\PhpWord\Element\Chart|\PhpOffice\PhpWord\Element\XmlChart $chart */
             foreach ($collection->getItems() as $chart) {
                 ++$index;
                 ++$rId;
@@ -293,7 +294,13 @@ class Word2007 extends AbstractWriter implements WriterInterface
 
                 // word/charts/chartN.xml
                 $chart->setRelationId($rId);
-                $writerPart = $this->getWriterPart('Chart');
+                
+                // Use XmlChart writer for XmlChart elements, otherwise use normal Chart writer
+                if ($chart instanceof \PhpOffice\PhpWord\Element\XmlChart) {
+                    $writerPart = $this->getWriterPart('XmlChart');
+                } else {
+                    $writerPart = $this->getWriterPart('Chart');
+                }
                 $writerPart->setElement($chart);
                 $zip->addFromString("word/{$filename}", $writerPart->write());
             }

@@ -47,6 +47,7 @@ use ReflectionClass;
  * @method Line addLine(mixed $lineStyle = null)
  * @method Shape addShape(string $type, mixed $style = null)
  * @method Chart addChart(string $type, array $categories, array $values, array $style = null, $seriesName = null)
+ * @method XmlChart addXmlChart(string $xmlPath)
  * @method FormField addFormField(string $type, mixed $fStyle = null, mixed $pStyle = null)
  * @method SDT addSDT(string $type)
  * @method Formula addFormula(Math $math)
@@ -91,7 +92,7 @@ abstract class AbstractContainer extends AbstractElement
             'ListItem', 'ListItemRun', 'Table', 'Image', 'Object', 'OLEObject',
             'Footnote', 'Endnote', 'CheckBox', 'TextBox', 'Field',
             'Line', 'Shape', 'Title', 'TOC', 'PageBreak',
-            'Chart', 'FormField', 'SDT', 'Comment',
+            'Chart', 'XmlChart', 'FormField', 'SDT', 'Comment',
             'Formula', 'Ruby',
         ];
         $functions = [];

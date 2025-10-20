@@ -35,6 +35,7 @@ use PhpOffice\PhpWord\Exception\Exception;
  * @method int addFootnote(Element\Footnote $footnote)
  * @method int addEndnote(Element\Endnote $endnote)
  * @method int addChart(Element\Chart $chart)
+ * @method int addXmlChart(Element\XmlChart $xmlChart)
  * @method int addComment(Element\Comment $comment)
  * @method Style\Paragraph addParagraphStyle(string $styleName, mixed $styles)
  * @method Style\Font addFontStyle(string $styleName, mixed $fontStyle, mixed $paragraphStyle = null)
@@ -118,6 +119,8 @@ class PhpWord
             $getCollection[] = strtolower("get{$collection}s");
             $addCollection[] = strtolower("add{$collection}");
         }
+        // XmlChart also uses Charts collection
+        $addCollection[] = 'addxmlchart';
 
         $styles = ['Paragraph', 'Font', 'Table', 'Numbering', 'Link', 'Title'];
         foreach ($styles as $style) {
@@ -133,7 +136,12 @@ class PhpWord
 
         // Run add collection item method
         if (in_array($function, $addCollection)) {
-            $key = ucfirst(str_replace('add', '', $function) . 's');
+            // XmlChart uses Charts collection
+            if ($function === 'addxmlchart') {
+                $key = 'Charts';
+            } else {
+                $key = ucfirst(str_replace('add', '', $function) . 's');
+            }
 
             $collectionObject = $this->collections[$key];
 
