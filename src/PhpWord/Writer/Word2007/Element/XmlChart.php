@@ -34,7 +34,7 @@ class XmlChart extends AbstractElement
     {
         $xmlWriter = $this->getXmlWriter();
         $element = $this->getElement();
-        
+
         if (!$element instanceof XmlChartElement) {
             return;
         }
@@ -57,7 +57,10 @@ class XmlChart extends AbstractElement
         $xmlWriter->startElement('wp:inline');
 
         // Default size (can be customized later)
-        $xmlWriter->writeElementBlock('wp:extent', ['cx' => 5486400, 'cy' => 3200400]); // Default chart size
+        $xmlWriter->writeElementBlock('wp:extent', [
+            'cx' => $element->getWidth(),
+            'cy' => $element->getHeight()
+        ]);
         $xmlWriter->writeElementBlock('wp:docPr', ['id' => $rId, 'name' => "Chart{$rId}"]);
 
         $xmlWriter->startElement('a:graphic');

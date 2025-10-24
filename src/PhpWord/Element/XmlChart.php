@@ -39,14 +39,24 @@ class XmlChart extends AbstractElement
      */
     private $xmlContent;
 
+    private $width = 5486400;
+    private $height = 3200400; 
+
     /**
      * Create new instance.
      *
      * @param string $xmlContent Chart XML content
      */
-    public function __construct($xmlContent)
+    public function __construct($xmlContent,$width = null, $height = null)
     {
         $this->xmlContent = $xmlContent;
+
+        if ($width !== null) {
+            $this->width = $width;
+        }
+        if ($height !== null) {
+            $this->height = $height;
+        }
     }
 
     /**
@@ -59,4 +69,16 @@ class XmlChart extends AbstractElement
         
         return $this->xmlContent;
     }
+
+    public function getWidth()
+    {
+        return $this->width;
+    }
+    
+    public function getHeight() 
+    {
+        return $this->height;
+    }
+
+
 }
